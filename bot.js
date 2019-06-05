@@ -1,52 +1,31 @@
-const Discord = require('discord.js')
-const client = new Discord.Client()
 
-client.on('message', (receivedMessage) => {
-    if (receivedMessage.author == client.user) { // Prevent bot from responding to its own messages
-        return
+const Discord = require('discord.js');
+const client = new Discord.Client();
+
+client.on('ready', () => {
+    console.log('I am ready!');
+});
+
+client.on('message', message => {
+    if (message.content === '+ping') {
+    	message.channel.send('pong');
+  	}
+});
+
+client.on("message", (message) =>{
+    if (message.content.startsWith("komaeda, ") {
+        let responses = ["No fucking chance.", 
+        "You're fucking joking right? Why on Earth would you ask that? Do you have a gosh darn motherfucking deathwish, you motherfucking motherfucker? Never ask me something that disrespectful again.",
+        "No.", 
+        "Probably.", 
+        "Yes! Absolutely.",
+        "No fucking chance.",
+        "Perhaps.",
+        "https://cdn.discordapp.com/attachments/559515079264174097/559891374091010077/perhaps.jpg"];
+        let pick = responses[Math.floor(Math.random()*array.length)];
+        message.content.send(pick);
     }
-    
-    if (receivedMessage.content.startsWith("!")) {
-        processCommand(receivedMessage)
-    }
-})
+});
 
-function processCommand(receivedMessage) {
-    let fullCommand = receivedMessage.content.substr(1) // Remove the leading exclamation mark
-    let splitCommand = fullCommand.split(" ") // Split the message up in to pieces for each space
-    let primaryCommand = splitCommand[0] // The first word directly after the exclamation is the command
-    let arguments = splitCommand.slice(1) // All other words are arguments/parameters/options for the command
-
-    console.log("Command received: " + primaryCommand)
-    console.log("Arguments: " + arguments) // There may not be any arguments
-
-    if (primaryCommand == "help") {
-        helpCommand(arguments, receivedMessage)
-    } else if (primaryCommand == "multiply") {
-        multiplyCommand(arguments, receivedMessage)
-    } else {
-        receivedMessage.channel.send("I don't understand the command. Try `!help` or `!multiply`")
-    }
-}
-
-function helpCommand(arguments, receivedMessage) {
-    if (arguments.length > 0) {
-        receivedMessage.channel.send("It looks like you might need help with " + arguments)
-    } else {
-        receivedMessage.channel.send("I'm not sure what you need help with. Try `!help [topic]`")
-    }
-}
-
-function multiplyCommand(arguments, receivedMessage) {
-    if (arguments.length < 2) {
-        receivedMessage.channel.send("Not enough values to multiply. Try `!multiply 2 4 10` or `!multiply 5.2 7`")
-        return
-    }
-    let product = 1 
-    arguments.forEach((value) => {
-        product = product * parseFloat(value)
-    })
-    receivedMessage.channel.send("The product of " + arguments + " multiplied together is: " + product.toString())
-}
-
-client.login("NTg1NjMyMTgxNTA2OTMyNzM2.XPcS7w.zYKRPmv_Fh7hvQ4kOdLpGXa6F9g") // Replace XXXXX with your bot token
+// THIS  MUST  BE  THIS  WAY
+client.login(process.env.BOT_TOKEN);
